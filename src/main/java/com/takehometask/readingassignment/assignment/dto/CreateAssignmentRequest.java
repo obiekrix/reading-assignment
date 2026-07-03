@@ -9,7 +9,7 @@ import java.util.List;
 
 public record CreateAssignmentRequest(
         @NotNull Long bookId,
-        @NotEmpty List<Long> studentIds,
+        @NotEmpty List<String> studentIds,
         @NotNull @FutureOrPresent LocalDate dueDate
 ) {
 }

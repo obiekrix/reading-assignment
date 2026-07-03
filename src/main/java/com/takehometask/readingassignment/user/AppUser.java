@@ -12,6 +12,7 @@ public class AppUser {
 
     private String name;
     private String email;
+    private String userId;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -19,9 +20,10 @@ public class AppUser {
     protected AppUser() {
     }
 
-    public AppUser(String name, String email, UserRole role) {
+    public AppUser(String name, String email, String userId, UserRole role) {
         this.name = name;
         this.email = email;
+        this.userId = userId;
         this.role = role;
     }
 
@@ -35,6 +37,10 @@ public class AppUser {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public UserRole getRole() {

@@ -28,9 +28,11 @@ public class ReadingAssignment {
     @Enumerated(EnumType.STRING)
     private AssignmentStatus status = AssignmentStatus.NOT_STARTED;
 
-    private int minutesRead = 0;
-
     private OffsetDateTime createdAt = OffsetDateTime.now();
+
+    private OffsetDateTime startedReadingAt;
+
+    private OffsetDateTime finishedReadingAt;
 
     protected ReadingAssignment() {
     }
@@ -66,16 +68,25 @@ public class ReadingAssignment {
         return status;
     }
 
-    public int getMinutesRead() {
-        return minutesRead;
-    }
-
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void updateProgress(AssignmentStatus status, int minutesRead) {
+    public OffsetDateTime getStartedReadingAt() {
+        return startedReadingAt;
+    }
+
+    public OffsetDateTime getFinishedReadingAt() {
+        return finishedReadingAt;
+    }
+
+    public void updateProgress(AssignmentStatus status) {
         this.status = status;
-        this.minutesRead = Math.max(minutesRead, 0);
+
+        if (status.equals(AssignmentStatus.IN_PROGRESS)) {
+            this.startedReadingAt = OffsetDateTime.now();
+        } else if (status.equals(AssignmentStatus.COMPLETED)) {
+            this.finishedReadingAt = OffsetDateTime.now();
+        }
     }
 }

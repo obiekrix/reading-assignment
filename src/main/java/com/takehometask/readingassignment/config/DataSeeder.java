@@ -15,10 +15,10 @@ public class DataSeeder {
     @Bean
     CommandLineRunner seedData(BookRepository bookRepository, UserRepository userRepository) {
         return args -> {
-            userRepository.save(new AppUser("Demo Teacher", "teacher@example.com", UserRole.TEACHER));
-            userRepository.save(new AppUser("Demo Student", "student@example.com", UserRole.STUDENT));
-            userRepository.save(new AppUser("Alex Reader", "alex@example.com", UserRole.STUDENT));
-            userRepository.save(new AppUser("Sam Learner", "sam@example.com", UserRole.STUDENT));
+            userRepository.save(new AppUser("Demo Teacher", "teacher@example.com", "T1", UserRole.TEACHER));
+            userRepository.save(new AppUser("Demo Student", "student@example.com", "S1", UserRole.STUDENT));
+            userRepository.save(new AppUser("Alex Reader", "alex@example.com", "S2", UserRole.STUDENT));
+            userRepository.save(new AppUser("Sam Learner", "sam@example.com", "S3", UserRole.STUDENT));
 
             bookRepository.save(new Book(
                     "The Secret Garden",

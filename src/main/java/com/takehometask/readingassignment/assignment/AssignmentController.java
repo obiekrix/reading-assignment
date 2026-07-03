@@ -18,26 +18,26 @@ public class AssignmentController {
     }
 
     @GetMapping
-    public List<ReadingAssignment> getTeacherAssignments(@RequestHeader("X-User-Id") Long teacherId) {
+    public List<ReadingAssignment> getTeacherAssignments(@RequestHeader("X-User-Id") String teacherId) {
         return assignmentService.getTeacherAssignments(teacherId);
     }
 
     @PostMapping
     public List<ReadingAssignment> createAssignments(
-            @RequestHeader("X-User-Id") Long teacherId,
+            @RequestHeader("X-User-Id") String teacherId,
             @Valid @RequestBody CreateAssignmentRequest request
     ) {
         return assignmentService.createAssignments(teacherId, request);
     }
 
     @GetMapping("/student")
-    public List<ReadingAssignment> getStudentAssignments(@RequestHeader("X-User-Id") Long studentId) {
+    public List<ReadingAssignment> getStudentAssignments(@RequestHeader("X-User-Id") String studentId) {
         return assignmentService.getStudentAssignments(studentId);
     }
 
     @PatchMapping("/{assignmentId}/progress")
     public ReadingAssignment updateProgress(
-            @RequestHeader("X-User-Id") Long studentId,
+            @RequestHeader("X-User-Id") String studentId,
             @PathVariable Long assignmentId,
             @Valid @RequestBody UpdateProgressRequest request
     ) {

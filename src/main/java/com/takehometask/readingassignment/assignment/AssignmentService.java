@@ -28,8 +28,8 @@ public class AssignmentService {
         this.userRepository = userRepository;
     }
 
-    public List<ReadingAssignment> createAssignments(Long teacherId, CreateAssignmentRequest request) {
-        AppUser teacher = userRepository.findById(teacherId)
+    public List<ReadingAssignment> createAssignments(String teacherId, CreateAssignmentRequest request) {
+        AppUser teacher = userRepository.findByUserId(teacherId)
                 .orElseThrow(() -> new IllegalArgumentException("Teacher not found"));
 
         if (teacher.getRole() != UserRole.TEACHER) {
@@ -41,7 +41,7 @@ public class AssignmentService {
 
         List<ReadingAssignment> assignments = request.studentIds().stream()
                 .map(studentId -> {
-                    AppUser student = userRepository.findById(studentId)
+                    AppUser student = userRepository.findByUserId(studentId)
                             .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentId));
 
                     if (student.getRole() != UserRole.STUDENT) {
@@ -55,23 +55,23 @@ public class AssignmentService {
         return assignmentRepository.saveAll(assignments);
     }
 
-    public List<ReadingAssignment> getTeacherAssignments(Long teacherId) {
-        return assignmentRepository.findByTeacherId(teacherId);
+    public List<ReadingAssignment> getTeacherAssignments(String teacherId) {
+        return assignmentRepository.findByTeacherUserId(teacherId);
     }
 
-    public List<ReadingAssignment> getStudentAssignments(Long studentId) {
-        return assignmentRepository.findByStudentId(studentId);
+    public List<ReadingAssignment> getStudentAssignments(String studentId) {
+        return assignmentRepository.findByStudentUserId(studentId);
     }
 
-    public ReadingAssignment updateProgress(Long studentId, Long assignmentId, UpdateProgressRequest request) {
+    public ReadingAssignment updateProgress(String studentId, Long assignmentId, UpdateProgressRequest request) {
         ReadingAssignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Assignment not found"));
 
-        if (!assignment.getStudent().getId().equals(studentId)) {
+        if (!assignment.getStudent().getUserId().equals(studentId)) {
             throw new IllegalArgumentException("Students can only update their own assignments");
         }
 
-        assignment.updateProgress(request.status(), request.minutesRead());
+        assignment.updateProgress(request.status());
         return assignmentRepository.save(assignment);
     }
 }
