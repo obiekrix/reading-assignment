@@ -9,6 +9,10 @@ import com.takehometask.readingassignment.user.UserRepository;
 import com.takehometask.readingassignment.user.UserRole;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -48,7 +52,10 @@ public class AssignmentService {
                         throw new IllegalArgumentException("Assignments can only be created for students");
                     }
 
-                    return new ReadingAssignment(book, student, teacher, request.dueDate());
+                    LocalDateTime localDateTime = LocalDateTime.of(request.dueDate(), LocalTime.MAX);
+                    OffsetDateTime dueDate = localDateTime.atOffset(ZoneOffset.UTC);
+
+                    return new ReadingAssignment(book, student, teacher, dueDate);
                 })
                 .toList();
 
@@ -69,6 +76,10 @@ public class AssignmentService {
 
         if (!assignment.getStudent().getUserId().equals(studentId)) {
             throw new IllegalArgumentException("Students can only update their own assignments");
+        }
+
+        if (OffsetDateTime.now().isAfter(assignment.getDueDate())) {
+            throw new IllegalArgumentException("Assignments can only be updated before the due date");
         }
 
         assignment.updateProgress(request.status());

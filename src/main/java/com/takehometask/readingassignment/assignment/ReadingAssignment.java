@@ -23,7 +23,7 @@ public class ReadingAssignment {
     @ManyToOne(optional = false)
     private AppUser teacher;
 
-    private LocalDate dueDate;
+    private OffsetDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
     private AssignmentStatus status = AssignmentStatus.NOT_STARTED;
@@ -37,7 +37,7 @@ public class ReadingAssignment {
     protected ReadingAssignment() {
     }
 
-    public ReadingAssignment(Book book, AppUser student, AppUser teacher, LocalDate dueDate) {
+    public ReadingAssignment(Book book, AppUser student, AppUser teacher, OffsetDateTime dueDate) {
         this.book = book;
         this.student = student;
         this.teacher = teacher;
@@ -60,7 +60,7 @@ public class ReadingAssignment {
         return teacher;
     }
 
-    public LocalDate getDueDate() {
+    public OffsetDateTime getDueDate() {
         return dueDate;
     }
 
